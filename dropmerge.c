@@ -1,3 +1,13 @@
+/******************************************************/
+/*                   Jogo feito por                   */
+/*  Nome: Filipe Nobre Nunes    Matricula: 242023523  */
+/******************************************************/
+
+/****************/
+/*Legenda:*/
+/*Menu linha tal*/
+/************** */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -11,6 +21,26 @@ void limpa_tela()                           /*Checa o respectivo comando para li
     #else
         system("clear");                    /*Caso seja outra versao do sistema (linux)*/
     #endif
+}
+
+void PrintaMenu()
+{
+    printf("*** JOGO DROP MERGE de APC ***\n\n");
+    printf("1 - Jogar\n");
+    printf("2 - Configuracoes\n");
+    printf("3 - Instrucoes\n");
+    printf("4 - Ranking\n");
+    printf("5 - Sair\n\n");
+    printf("Digite a opcao desejada: ");
+}
+
+void PrintaMConfig()
+{
+    printf("*** CONFIGURACOES ***\n\n");
+    printf("1 - Zerar Ranking\n");
+    printf("2 - Modo de Dificuldade\n");
+    printf("3 - Voltar ao Menu Principal\n\n");
+    printf("Digite a opcao desejada: ");
 }
 
 void Mostra(int nro,int nro_seguinte)       /*Printa tela com numeros da matriz, numero atual e seguinte a cair*/
@@ -39,8 +69,59 @@ void Mostra(int nro,int nro_seguinte)       /*Printa tela com numeros da matriz,
 int main()
 {
     int pos,num1,num2,posArq;
-    char texto[5];                          /*Numeros de ate 4 casas*/
+    char texto[5],nome[101];                          /*Numeros de ate 4 casas*/
     FILE *arquivo;
+
+    int opcao=0;
+
+    printf("Bem vindo(a) ao Jogo DROP MERGE de APC!!!\n\n");
+    printf("Informe seu nickname (Informacao totalmente descartavel): ");
+    fgets(nome,101,stdin);
+
+/***********************************************Loop do Menu***************************************************/
+
+    while (opcao!=6)
+    {
+        limpa_tela();
+        PrintaMenu();
+        do
+        {
+            scanf("%d",&opcao);
+            fflush(stdin);
+        }
+        while (opcao<1 || opcao>5);
+
+        switch (opcao)
+        {
+            case 1: opcao=6; break;
+            case 2: while (opcao!=3)
+                    {
+                        limpa_tela();
+                        PrintaMConfig();
+                        do
+                        {
+                            scanf("%d",&opcao);
+                            fflush(stdin);
+                        }
+                        while (opcao<1 || opcao>5);
+
+                        switch (opcao)
+                        {
+                            case 1: printf("NAO FAZ ISSO DE NOVO\n"); getchar(); break;
+                            case 2: printf("PARA DE CLICARAAAAAAAAAAAAAA\n"); getchar(); break;
+                            case 3: break;
+                            default: printf("ERRO NO MENU\n"); getchar(); break;
+                        }
+                    }
+                    break;
+            case 3: printf("AINDA NAO TA PRONTO\n"); getchar(); break;
+            case 4: printf("EU FALEI QUE NAO TA PRONTO\n"); getchar(); break;
+            case 5: return 0;
+            default: printf("ERRO NO MENU\n"); getchar(); break;
+        }
+    }
+
+/***********************************************Loop do Jogo***************************************************/
 
     for (int i = 0; i < 10; i++)            /*Inicia matriz com zeros*/
     {
@@ -61,10 +142,12 @@ int main()
         posArq=strlen(texto)+1;             /*Posicao de leitura do arquivo = tamanho do numero + virgula*/
         fseek(arquivo,-posArq,SEEK_CUR);    /*Retorna o leitor do arquivo em (posArq) posicoes*/
 
+        limpa_tela();
         Mostra(num1,num2);                  /*chama funcao mostra com o numero atual e o proximo*/
         do
         {
             scanf("%d",&pos);               /*Scaneia posicao a ser jogado o numero*/
+            fflush(stdin);
         }
         while (pos<1 || pos>5);             /*Enquanto o numero digitado for invalido, scaneia*/
         
