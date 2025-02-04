@@ -43,6 +43,17 @@ void PrintaMConfig()
     printf("Digite a opcao desejada: ");
 }
 
+void IniciaMatriz()
+{
+    for (int i = 0; i < 10; i++)            /*Inicia matriz com zeros*/
+    {
+        for (int j = 0; j < 5; j++)
+        {
+            matriz[i][j]=0;                 /*linhas/colunas , y/x*/
+        }
+    }
+}
+
 void Mostra(int nro,int nro_seguinte)       /*Printa tela com numeros da matriz, numero atual e seguinte a cair*/
 {
     int i,j;
@@ -64,6 +75,22 @@ void Mostra(int nro,int nro_seguinte)       /*Printa tela com numeros da matriz,
     printf("  +----+----+----+----+----+\n");
     printf("  |  1 |  2 |  3 |  4 |  5 |\n");
     printf("  +----+----+----+----+----+\n\n");
+}
+
+void ChecaQueda()
+{
+    for (int i = 1; i < 10; i++)
+    {
+        for (int j = 0; j < 5; j++)
+        {
+            if (matriz[i][j]!=0 && matriz[i-1][j]==0)
+            {
+                int temp = matriz[i-1][j];
+                matriz[i-1][j] = matriz[i][j];
+                matriz[i][j] = temp;
+            }
+        }
+    }
 }
 
 int main()
@@ -123,14 +150,7 @@ int main()
 
 /***********************************************Loop do Jogo***************************************************/
 
-    for (int i = 0; i < 10; i++)            /*Inicia matriz com zeros*/
-    {
-        for (int j = 0; j < 5; j++)
-        {
-            matriz[i][j]=0;
-        }
-    }
-
+    IniciaMatriz();
     arquivo = fopen("numeros.txt","r");     /*Abre arquivo com numeros para leitura*/
 
     while (1)                               /*LOOP PRINCIPAL*/
@@ -156,6 +176,7 @@ int main()
             if (matriz[0][pos-1]==0)        /*Se o ultimo numero da matriz na posicao escolhida for 0*/
             {
                 matriz[0][pos-1]=num1;      /*printa la*/
+                ChecaQueda();               /*Checa quedas na matriz*/
                 break;                      /*encerra o for*/
             }
             else
@@ -170,6 +191,7 @@ int main()
                     else                    /*se nao*/
                     {
                         matriz[i+1][pos-1]=num1;    /*Coloca o numero na posicao acima do ultimo numero da coluna*/
+                        ChecaQueda();               /*Checa quedas na matriz*/
                         break;                      /*encerra o for*/
                     }
                 }
