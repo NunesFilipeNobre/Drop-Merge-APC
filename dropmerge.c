@@ -91,6 +91,85 @@ void ChecaQueda()
             }
         }
     }
+    return;
+}
+
+/*Ideia funcao recursiva
+
+Depos de selecionar coluna, jogar o numero na funcao merge()
+Funcao merge verifica se o numero tem numeros iguais adjacentes
+Se sim, zera eles, aumenta o numero base, roda checaQueda() e joga os numeros adjacentes no merge()
+Se nao, retorna*/
+
+void Merge()
+{
+    int mudancas=1;
+    while (mudancas!=0)
+    {
+        mudancas=0;
+        for (int i = 0; i < 10; i++)
+        {
+            for (int j = 0; j < 5; j++)
+            {
+                if (matriz[i][j]!=0 && matriz[i][j+1]==matriz[i][j] && matriz[i][j-1]==matriz[i][j] && matriz[i-1][j]==matriz[i][j] && i!=0 && j!=0 && j!=4)
+                {
+                    matriz[i][j]=matriz[i][j]*8;
+                    matriz[i][j+1]=0;
+                    matriz[i][j-1]=0;
+                    matriz[i-1][j]=0;
+                    mudancas=1;
+                    printf("1\n");
+                }
+                else if (matriz[i][j]!=0 && matriz[i][j+1]==matriz[i][j] && matriz[i][j-1]==matriz[i][j] && j!=0 && j!=4)
+                {
+                    matriz[i][j]=matriz[i][j]*4;
+                    matriz[i][j+1]=0;
+                    matriz[i][j-1]=0;
+                    mudancas=1;
+                    printf("2\n");
+                }
+                else if (matriz[i][j]!=0 && matriz[i][j+1]==matriz[i][j] && matriz[i-1][j]==matriz[i][j] && i!=0 && j!=4)
+                {
+                    matriz[i][j]=matriz[i][j]*4;
+                    matriz[i][j+1]=0;
+                    matriz[i-1][j]=0;
+                    mudancas=1;
+                    printf("3\n");
+                }
+                else if (matriz[i][j]!=0 && matriz[i-1][j]==matriz[i][j] && matriz[i][j-1]==matriz[i][j] && i!=0 && j!=0)
+                {
+                    matriz[i][j]=matriz[i][j]*4;
+                    matriz[i][j-1]=0;
+                    matriz[i-1][j]=0;
+                    mudancas=1;
+                    printf("4\n");
+                }
+                else if (matriz[i][j]!=0 && matriz[i][j+1]==matriz[i][j] && j!=4)
+                {
+                    matriz[i][j]=matriz[i][j]*2;
+                    matriz[i][j+1]=0;
+                    mudancas=1;
+                    printf("5\n");
+                }
+                else if (matriz[i][j]!=0 && matriz[i][j-1]==matriz[i][j] && j!=0)
+                {
+                    matriz[i][j]=matriz[i][j]*2;
+                    matriz[i][j-1]=0;
+                    mudancas=1;
+                    printf("6\n");
+                }
+                else if (matriz[i][j]!=0 && matriz[i-1][j]==matriz[i][j] && i!=0)
+                {
+                    matriz[i][j]=matriz[i][j]*2;
+                    matriz[i-1][j]=0;
+                    mudancas=1;
+                    printf("7\n");
+                }
+                ChecaQueda();
+            }
+        }
+    }
+    return;
 }
 
 int main()
@@ -176,7 +255,7 @@ int main()
             if (matriz[0][pos-1]==0)        /*Se o ultimo numero da matriz na posicao escolhida for 0*/
             {
                 matriz[0][pos-1]=num1;      /*printa la*/
-                ChecaQueda();               /*Checa quedas na matriz*/
+                Merge();                    /*Combina numeros*/
                 break;                      /*encerra o for*/
             }
             else
@@ -191,7 +270,7 @@ int main()
                     else                    /*se nao*/
                     {
                         matriz[i+1][pos-1]=num1;    /*Coloca o numero na posicao acima do ultimo numero da coluna*/
-                        ChecaQueda();               /*Checa quedas na matriz*/
+                        Merge();                    /*Combina numeros*/
                         break;                      /*encerra o for*/
                     }
                 }
